@@ -64,7 +64,6 @@ huggingface-cli download embrelgrim/grimoire \
   --local-dir runs/assistant8 \
   --include "checkpoints/*.pt" "compact_vocab.pt" "config.json" "tokenizer/*"
 
-```bash
 # интерактивный чат (по умолчанию БЕЗ контекста между сообщениями)
 python build_neuroset.py --mode chat --run runs/assistant8
 
