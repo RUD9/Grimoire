@@ -1,5 +1,8 @@
 # Compact Dual Dynamic LLM
 
+[![Model on HF](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-yellow)](https://huggingface.co/embrelgrim/grimoire)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 > Крошечная **русскоязычная LLM-ассистентка с инструментами** (калькулятор +
 > поиск), обучаемая примерно за 8 часов на одной потребительской GPU
 > (AMD Radeon RX 6600, 8 ГБ, ROCm). Весь проект — один самодостаточный файл
@@ -12,6 +15,7 @@ Qwen2** и **N «сгенерированных» слоёв**, веса кот�
 
 | | |
 |---|---|
+| чекпойнт на HF | [**`embrelgrim/grimoire`**](https://huggingface.co/embrelgrim/grimoire) — 35.85M |
 | основной чекпойнт | **`runs/assistant8`** — 35.85M параметров |
 | архитектура | `d_model=896`, `14 heads × 64`, 1 базовый слой Qwen2.5‑0.5B (слой 6), `depth=8` |
 | словарь | 11 264 токена (coverage 99.84 %), tied-эмбеддинги |
@@ -51,6 +55,14 @@ Qwen2** и **N «сгенерированных» слоёв**, веса кот�
 Зависимости: `torch`, `transformers`, `numpy` (см. `pip install torch
 transformers numpy`). Для ROCm-карт AMD скрипт сам выставляет
 `HSA_OVERRIDE_GFX_VERSION`.
+
+**Скачать готовые веса с Hugging Face Hub** (без обучения):
+
+```bash
+pip install -U huggingface_hub
+huggingface-cli download embrelgrim/grimoire \
+  --local-dir runs/assistant8 \
+  --include "checkpoints/*.pt" "compact_vocab.pt" "config.json" "tokenizer/*"
 
 ```bash
 # интерактивный чат (по умолчанию БЕЗ контекста между сообщениями)
