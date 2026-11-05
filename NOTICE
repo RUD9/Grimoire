@@ -1,0 +1,43 @@
+Compact Dual Dynamic LLM
+Copyright (c) 2026 <Your Name>
+
+This product includes software and model weights developed by
+third parties. The original copyright notices and licenses are
+reproduced below.
+
+--------------------------------------------------------------------------------
+Qwen2.5-0.5B-Instruct
+Copyright (c) 2024 Alibaba Cloud
+Licensed under the Apache License, Version 2.0.
+Source: https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct
+The base decoder layer used in this project (layer index 6) is
+derived from this model.
+
+--------------------------------------------------------------------------------
+PyTorch
+Copyright (c) 2016-present, Facebook, Inc. and contributors.
+Licensed under the BSD 3-Clause License.
+
+--------------------------------------------------------------------------------
+Hugging Face Transformers
+Copyright (c) 2018-2026 Hugging Face, Inc.
+Licensed under the Apache License, Version 2.0.
+
+--------------------------------------------------------------------------------
+NumPy
+Copyright (c) 2005-2026, NumPy Developers.
+Licensed under the BSD 3-Clause License.
+
+--------------------------------------------------------------------------------
+rank_bm25 (optional)
+Copyright (c) Dorian Brown.
+Licensed under the Apache License, Version 2.0.
+
+--------------------------------------------------------------------------------
+Russian Wikipedia (knowledge base for web_search)
+Text is available under the Creative Commons Attribution-ShareAlike 4.0
+International License (CC BY-SA 4.0).
+Source: https://ru.wikipedia.org/
+Only a derived BM25 index and short quoted fragments (in demos and
+evaluation fixtures) are stored in this repository; full article text
+is not redistributed.

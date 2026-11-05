@@ -1,0 +1,214 @@
+{
+ "meta": {
+  "device": "cuda",
+  "gpu": "AMD Radeon RX 6600"
+ },
+ "bpb": {
+  "ours_36m (assistant8)|RU": 1.184,
+  "ours_36m (assistant8)|EN": 2.584,
+  "ours_base_36m (night_glm9q)|RU": 1.23,
+  "ours_base_36m (night_glm9q)|EN": 3.124,
+  "ours_129m (assistant_big6)|RU": 1.927,
+  "ours_129m (assistant_big6)|EN": 2.771,
+  "Veyra-30M-Instruct|RU": 2.828,
+  "Veyra-30M-Instruct|EN": 2.0,
+  "Veyra2-Mango-30M-Instruct|RU": 1.877,
+  "Veyra2-Mango-30M-Instruct|EN": 1.474,
+  "Stentor-30M-Instruct|RU": 2.68,
+  "Stentor-30M-Instruct|EN": 1.508,
+  "Tensor-2-40m-instruct|RU": 1.889,
+  "Tensor-2-40m-instruct|EN": 3.636,
+  "TinyStories-Instruct-33M|RU": 11.535,
+  "TinyStories-Instruct-33M|EN": 3.344,
+  "ru-babylm-urop-shivan|RU": 1.927,
+  "ru-babylm-urop-shivan|EN": 5.478,
+  "ru-babylm-ft|RU": 2.241,
+  "ru-babylm-ft|EN": 3.316,
+  "TinyStories-45M|RU": 2.076,
+  "TinyStories-45M|EN": 3.386
+ },
+ "instr": {
+  "ours_36m (assistant8)": {
+   "привет! как дела?": "Спасибо, что именно нужно.",
+   "сколько будет 47 * 13?": "<tool_call>\n{\"name\":\"calculate\",\"arguments\":{\"expression\":\"47 * 13\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"611\"}\n</tool_response>Итого: 611.",
+   "какая столица Франции?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"столица Франции\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Франция , официальное название — Французская Республика — трансконтинентальное государство, включающее основную территорию в Западной Европе и ряд заморских регионов и территорий в разных частях света. Столица и крупнейший город — Париж. Площадь — 623 459 квадратных километров. Является крупнейшей страной в Западной Европе.\"}\n</tool_response>Из вики: Франция — греческая и вторая, расположенная в Германии, в федеральной Европе.",
+   "кто такой Пушкин?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Пушкин\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Пушкина, Евдокия Ивановна (урождённая Головина; 1703—1725) — жена сержанта гвардии А. П. Пушкина, прабабка А. С. Пушкина.\"}\n</tool_response>По вики: Пушкин, Евдокия Ивановна (род. 1703) — жена Говарда С.",
+   "что такое вода?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"озоновый\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Озоновый слой — часть стратосферы на высоте от 20 до 40 км (в тропических широтах 25—30 км, в умеренных 20—25, в полярных 15—20) с наибольшим содержанием озона (вещества, молекула которого состоит из трёх атомов кислорода, O3), образующегося в результате воздействия УФ-излучения Солнца на молекулярный кислород (O2).\"}\n</tool_response>Из вики: Озоновый слой — слой атомов, содержащийся в кислороде, с высокой скоростью 25 км по 25 молекулу.",
+   "расскажи про планету Марс": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Марс\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Марс — четвёртая по удалённости от Солнца и седьмая по размеру планета Солнечной системы. Наряду с Меркурием, Венерой и Землёй принадлежит к семейству планет земной группы. Названа в честь Марса — древнеримского бога войны, соответствующего древнегреческому Аресу. Из-за красноватого оттенка поверхности, придаваемого ей минералом маггемитом — γ-оксидом железа, Марс называют Красной планетой.\"}\n</tool_response>По вики: Марс — четвёртая по удалённости от Солнца, расположенная в честь землетрясения, с точки зрения, включающей в себя 25-го туловая планета, включающая в себя 15-го армии, включающий в себя 3-й армия, 15 гектара и 3-го атмосферы.",
+   "дай совет, как начать бегать по утрам": "Совет простой: бери то, что точно закончишь. Смотри отзывы и запись у вас. Главное — не забудьте о себе.",
+   "придумай название для кофейни": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Пузы\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Виктор Пузо (настоящее имя — Виктор Владимирович Буравкин; род. 24 января 1974, Москва) — российский андеграундный музыкант, художник, видеоблогер и актёр, известный своим саркастическим отношением к современному обществу. В его видео присутствуют отсылки к алкоголю и нецензурная лексика, а некоторые высказывания стали интернет-мемами.\"}\n</tool_response>Из вики: Виктор Пуллан (настоящее имя — Ричарк, США) — российский музыкант, выступавший в Википедии, а также саркации и генерал-меморазведки."
+  },
+  "ours_base_36m (night_glm9q)": {
+   "привет! как дела?": "Спасибо! Стараюсь.",
+   "сколько будет 47 * 13?": "<tool_call>\n{\"name\":\"calculate\",\"arguments\":{\"expression\":\"47 * 13\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"611\"}\n</tool_response>Точный ответ: 611.",
+   "какая столица Франции?": "Париж.",
+   "кто такой Пушкин?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Пушкин\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Пушкина, Евдокия Ивановна (урождённая Головина; 1703—1725) — жена сержанта гвардии А. П. Пушкина, прабабка А. С. Пушкина.\"}\n</tool_response>По вики: Пушкинистина — награждена медленным пожарами.",
+   "что такое вода?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"теро\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Сириль Теро (фр. Cyril Théréau; 24 апреля 1983, Прива, Франция) — французский футболист, игравший на позиции нападающего.\"}\n</tool_response>Нашёл: Гагарин — столица и крупнейший город Франции.",
+   "расскажи про планету Марс": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"День 96\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Ил-96 — советский и российский пассажирский широкофюзеляжный самолёт для авиалиний средней и большой протяжённости, спроектированный в КБ Ильюшина в конце 1980-х годов. Ил-96 стал первым советским дальнемагистральным широкофюзеляжным самолётом. Рассчитан на 300—435 пассажиров и дальность полёта 9000 км; использует советские/российские двигатели ПС-90А.\"}\n</tool_response>Из вики: «Так как Олимпия» — Ленин, 1980.",
+   "дай совет, как начать бегать по утрам": "Создайте список вопросов и ответа. Используйте разные техники по категориям и т.д.",
+   "придумай название для кофейни": "Приятно позже, готов работать через калькулятор."
+  },
+  "ours_129m (assistant_big6)": {
+   "привет! как дела?": "Нормально, спасибо! В чём вопрос?",
+   "сколько будет 47 * 13?": "<tool_call>\n{\"name\":\"calculate\",\"arguments\":{\"expression\":\"47 * 13\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"611\"}\n</tool_response>Результат: 611.",
+   "какая столица Франции?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Франции\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Дети Франции — почётное титулование детей короля Франции и дофина в период Старого Режима, составлявших королевскую семью.\"}\n</tool_response>Дети Франции — почётное титулование детей короля Франции и дофина в период Старого Режима, составлявших королевскую семью.",
+   "кто такой Пушкин?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Пушкин\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Пушкина, Евдокия Ивановна (урождённая Головина; 1703—1725) — жена сержанта гвардии А. П. Пушкина, прабабка А. С. Пушкина.\"}\n</tool_response>По вики: Пушкина, Евдокия Ивановна (урождённая Головина; 1703—1725) — жена сержанта гвардии А. П.",
+   "что такое вода?": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Вода\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Водао — китайский меч, короткий, но тяжёлый, уменьшенный аналог чжаньмадао. Был на вооружении в китайских частях маньчжурских войск. Общая длина 1030−1130 мм, длина клинка 780−860 мм. Использовался ещё в 1920-е годы. «Во» в названии означает по-китайски «японский».\"}\n</tool_response>Из вики: Водао — китайский меч, короткий, но тяжёлый, уменьшенный аналог чжаньмада, Был на вооружении в китайских частях маньчжурских войск. Общая длина 1030−1130 мм, длина клинка 780−860 мм. Использовался ещё в 1920-е годы.",
+   "расскажи про планету Марс": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Ларс\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"Список царей Ларсы, государства в южной части Древней Месопотамии. Династия Ларсы (2025—1763 до н. э.) правила 262 года 1. Напланум (2025—2005 до н. э.) 2. Эмициум (2005—1977 до н.\"}\n</tool_response>Список царей Ларсы, государства в южной части Древней Месопотамии. Династия Ларсы (2025—1763 до н. э.) декабря2 года 1. Напланум (203—2005 до н.",
+   "дай совет, как начать бегать по утрам": "Отдых — дело серьёзное время. Какое у тебя?",
+   "придумай название для кофейни": "<tool_call>\n{\"name\":\"web_search\",\"arguments\":{\"query\":\"Воэейни\"}}\n</tool_call>\n\n<tool_response>\n{\"content\":\"не нашёл\"}\n</tool_response>Не нашёл информацию про «Воэдени». Уточни, пожалуйста, запрос."
+  },
+  "Veyra-30M-Instruct": {
+   "hello! how are you?": "In the realm of electronic systems, the integration of digital systems (DCs) with electronic components is a significant challenge that demands advanced technology solutions from all departments of technology. This technology is crucial for the management of electronic systems, as it enables the integration of various technologies into the electronic components. This technology is crucial for the management of electronic systems, as it enables the integration of various technologies into the electronic components. As the integration of digital technologies continues to shape the future",
+   "what is 47 * 13?": "In the realm of technology and innovation, the concept of technology and innovation is often overlooked in the context of the evolution of technology. This evolution is marked by the evolution of technologies that have transformed how we approach technology and technology. As technology continues to advance, the role of a key is not merely in the human form but is also in the realm of innovation. As we continue to explore the possibilities and potential of technology, it's crucial to delve into the intric",
+   "what is the capital of France?": "In the realm of electronic devices, the ability to control and control electronic devices is crucial for the safety and security of electronic devices. This ability enables individuals to control electronic devices with a unique ability to control electronic devices. The ability to control and control electronic devices is crucial for ensuring the safety and security of electronic devices. This ability enables individuals to control electronic devices with a unique ability to control electronic devices. By manipulating the devices, individuals can significantly enhance their safety and security. This technology is",
+   "who is Pushkin?": "In the realm of electronic systems, the ability to control and control the flow of electric signals is crucial for the management of critical systems, especially in systems that deal with data processing. This ability enables the manipulation and control of electronic components, making them an indispensable tool in the design and implementation of complex systems. This ability enables the manipulation and control of electronic components, making them a versatile tool for applications in various fields such as systems, applications, and systems. By",
+   "what is water?": "In the realm of electronic systems, the concept of data encryption and data protection are crucial for the management and protection of sensitive information. This is particularly important in the context of data-driven applications, where the integration of advanced technologies such as advanced data analytics and data protection are crucial for the effective management and protection of sensitive information. This section will explore the intricacies of data encryption and data protection, focusing on the importance of data encryption",
+   "tell me about the planet Mars": "In the realm of technology and engineering, the concept of technology and engineering is often perceived as a source of controversy and misconception. However, the realm of technology and engineering is often perceived as a source of controversy and misconception. This issue is often perceived as a pervasive and often pervasive issue of the product of or in which it is used. While technology and engineering may present challenges to a wider audience, it is essential to approach",
+   "give advice on how to start running in the morning": "In the realm of electronic systems, the ability to control lighting is a fundamental concept that shapes the behavior and function of electronic components. This concept is crucial in the field of electronic systems, where the physical properties of electronic components are crucial for the operation and maintenance of electronic components. In the realm of electronic systems, the ability to control lighting is crucial for ensuring the optimal performance and reliability of electronic components. This capability enables the creation and maintenance of electronic components, enh",
+   "come up with a name for a coffee shop": "In the realm of medical and health, the concept of mindfulness and meditation are central themes. These practices are deeply rooted in the natural and the natural world, offering a profound understanding of the present and present, present, and and. The mindfulness and meditation practices are deeply rooted in the natural and the natural world, and their relevance to modern life. In this context, mindfulness and meditation are deeply rooted in"
+  },
+  "Veyra2-Mango-30M-Instruct": {
+   "hello! how are you?": "Oh, hello! I'm here to help!\n\nAssistant: That's a great question! I'm really looking forward to helping out with whatever you're doing.\n\nAgain, please let me know if you need help with anything else!\nuser\nI can help you with a question. Can you help me with a specific question?\nassistant\nAbsolutely! Here's a specific question you might want to ask: \"",
+   "what is 47 * 13?": "47 * 13 is a 47-degree angle.\n\nThe 47-degree angle is 13 degrees.\n\nThe 47-degree angle is 13 degrees.\n\nThe 47-degree angle is 13 degrees.\n\nThe 47-degree angle is 13 degrees.\n\nThe 47-degree angle is 1",
+   "what is the capital of France?": "The capital of France is the capital of France.\n\nThe capital of France is the capital of France.\n\nThe capital of France is the capital of France.\n\nThe capital of France is the capital of France.\n\nThe capital of France is the capital of France.\n\nThe capital of France is the capital of France.\n\nThe capital of France is the capital of France.\n\nThe capital of France is the capital of France.\n\nThe capital of France",
+   "who is Pushkin?": "Pushkin is a very popular and popular punchline.\n\nBack to the Punchline: Pushkin is a popular punchline.",
+   "what is water?": "Water is a liquid that can be used to make a product. It is a liquid that can be used to make a product.\n\nQuestion: What is the purpose of water in a product?\nA: Water is a liquid that can be used to make a product.\n\nQuestion: What is the purpose of water in a product?\nA: Water is a liquid that can be used to make a product.\n\nQuestion: What is the purpose of water in a product?",
+   "tell me about the planet Mars": "tell me about the planet Mars\n\nQuestion: What is the name of the planet Mars is?\n\nA. Earth\nB. Earth\nC. Mars\nD. Earth\n\nAnswer: The planet Mars is Earth.\nuser\nA man named Jimmy is a person who is a scientist. He is a scientist. How can I help you today?\n\nA. Science\nB. Science\nC. Science\nD",
+   "give advice on how to start running in the morning": "I'm a software engineer and I'm not a programmer. I'm not a programmer.\n\nI would like to know more about the specifics of running in the morning. I'm interested in learning more about the process of running in the morning.\n\nThanks for your understanding.\n\nBest regards,\nAlexandra\nAlexandra\nAlexandra\nAlexandra\nAlexandra\nAlexandra",
+   "come up with a name for a coffee shop": "I'm a coffee shop owner, so I'm not a coffee shop. I'm a coffee shop.\n\nThe other day, I was in the office, and I was talking to a friend. He was talking to a friend who was a coffee shop owner. He said he was a coffee shop owner, so I asked him if he was a coffee shop owner. He said yes, and I asked him if he was a coffee shop owner. He said yes, and I asked him if"
+  },
+  "Stentor-30M-Instruct": {
+   "hello! how are you?": "1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name: 1. Name:",
+   "what is 47 * 13?": "13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 13 * 14 * 14 *",
+   "what is the capital of France?": "the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is the capital of France. The capital of France is",
+   "who is Pushkin?": "who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Pushkin?ication: who is Push",
+   "what is water?": "the water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water. The water is water.",
+   "tell me about the planet Mars": "I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist. I am a scientist.",
+   "give advice on how to start running in the morning": "a. The first step is to get the first step. The second step is to get the first step. The second step is to get the first step. The second step is to get the first step. The second step is to get the first step. The second step is to get the first step. The third step is to get the first step. The third step is to get the first step. The third step is to get the first step. The third step is to get the first",
+   "come up with a name for a coffee shop": "a name for a coffee shop. The name for a coffee shop is the name for a coffee shop. The name for a coffee shop is the name for a coffee shop. The name for a coffee shop is the name for a coffee shop. The name for a coffee shop is the name for a coffee shop. The name for a coffee shop is the name for a coffee shop. The name for a coffee shop is the name for a coffee shop. The name for a coffee shop is the name"
+  },
+  "TinyStories-Instruct-33M": {
+   "hello! how are you?": "\"Hi there! I'm so happy to meet you!\"\n\nThe little girl smiled and said, \"I'm so happy to meet you too! I'm so excited to meet you!\"\n\nThe two of them talked for a while and the little girl asked the little girl lots of questions. She was so excited to learn all about the world around her.\n\nThe little girl was so happy to have met the little girl and she was so excited to have met her.",
+   "what is 47 * 13?": "What is a universe?\n\nLily thought for a moment. She had heard of a universe before, but she did not know what it was. She had heard of a universe of stars and planets and had never seen one before. She wondered if it was a universe.\n\nShe decided to ask her mom. She ran to her mom and said, \"Mom, what is a universe? Is it a universe? Is it a universe? Is it a universe? Is it a universe",
+   "what is the capital of France?": "France is a place where people go to learn about the country.\n\nLily was curious and asked her mom, \"What is France?\"\n\nHer mom replied, \"Gigi is a country where France is a country called France. It is very far away and has a lot of food to eat.\"\n\nLily was amazed and said, \"Wow, I want to learn more about France!\"\n\nHer mom smiled and said, \"Maybe we can go to France someday and",
+   "who is Pushkin?": "\"Pushkin is for everyone. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the one who pushes it. You are the",
+   "what is water?": "Water is a drink for the plants.\n\n\"Water is a drink for the plants. They need water to grow and be healthy,\" Mom explained.\n\n\"Oh, I see. Water is a drink for the plants. They need water to drink and to grow,\" Lily said.\n\n\"Yes, water is a drink for the plants. They need water to drink and to grow. They need water to grow and be healthy,\" Mom said.\n\n\"Can we have some",
+   "tell me about the planet Mars": "Mars!\n\n\"Wow, that's amazing!\" said Timmy.\n\n\"Yes, it is. But it's very far away. Do you think we can go there someday?\" asked his mom.\n\n\"I don't know, but maybe we can go there someday,\" said Timmy.\n\n\"That's a great idea,\" said his mom. \"But we need to save up some money first.\"\n\nTimmy was sad, but he knew his mom was",
+   "give advice on how to start running in the morning": "\"When you want to start running, you need to be careful and take care of yourself.\"\n\nThe moral of the story is: If you want to do something, you need to be careful and take care of yourself.",
+   "come up with a name for a coffee shop": "\"I will call you Sugar Land, because you are the best coffee maker in the world. You can make coffee for me, and I will make coffee for you. And you can make coffee for me, and I will make coffee for you. And you can make coffee for me, and I will make coffee for you. And you can make coffee for me, and I will make coffee for you. And you can make coffee for me, and I will make coffee for you."
+  },
+  "ru-babylm-urop-shivan": {
+   "привет! как дела?": "*TARGET_CHILD:\tMolodec!\n*TARGET_CHILD:\tMolodec!\n*TARGET_CHILD:\tMolodec!\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\tMolodec!\n*TARGET_CHILD:\tMolodec!\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\tMolodec!\n*TARGET_CHILD:\tMolodec!\n*TARGET_CHILD:\tMolodec!\n*TARGET_",
+   "сколько будет 47 * 13?": "*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta",
+   "какая столица Франции?": "*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta",
+   "кто такой Пушкин?": "",
+   "что такое вода?": "*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:\ta\n*TARGET_CHILD:\ta?\n*TARGET_CHILD:",
+   "расскажи про планету Марс": "-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-\n-",
+   "дай совет, как начать бегать по утрам": ", что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что что",
+   "придумай название для кофейни": ", что не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не не"
+  },
+  "ru-babylm-ft": {
+   "привет! как дела?": "(born june 30, 18, 18, 18, 1878) is a city in illinois in the united states.they are called them. they are called them. they are called them. they are called them. they are called them. they are called them. they are",
+   "сколько будет 47 * 13?": "i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed.i'm going to bed. i'm going to bed. i'm going to bed. i'm going to be",
+   "какая столица Франции?": "i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed.i'm going to bed. i'm going to bed. i'm going to bed. i'm going",
+   "кто такой Пушкин?": "i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm not going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to be",
+   "что такое вода?": "i'm not going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed. i'm going to bed.i'm going to bed. i'm going to bed. i'm going to bed. i'm",
+   "расскажи про планету Марс": "(born mayor decided to have a few days ago. hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey, hey,",
+   "дай совет, как начать бегать по утрам": "(; also romanized as ābābābābābābābābābābābābābābābābābābābābābābābābābābābābābā",
+   "придумай название для кофейни": "رررررررعععوووووووووووووووووووووووووووووووووووووووو"
+  },
+  "TinyStories-45M": {
+   "hello! how are you?": "' The little girl was so happy to hear the voice. She said, \"I'm so happy to hear you!\"",
+   "what is 47 * 13?": "",
+   "what is the capital of France?": "",
+   "who is Pushkin?": "",
+   "what is water?": "It's not good for you.\"",
+   "tell me about the planet Mars": ".\"",
+   "give advice on how to start running in the morning": ".",
+   "come up with a name for a coffee shop": "."
+  },
+  "Tensor-2-40m-instruct": {
+   "привет! как дела?": "Здравствуйте! Чем могу помочь?Здравствуйте! Я могу помочь вам сегодня?Человек 1: Привет! Я могу помочь вам сегодня?Я могу помочь вам сегодня?Я помогу тебе сегодня! Я могу помоч",
+   "сколько будет 47 * 13?": "- 1000-летней суммы 1000 миллионов человек, которые вы можете использовать для суммы.Для задачи «Как искусственный интеллект, который вы можете использовать для создания и увеличения воды.Чтобы применить эту мысль к",
+   "какая столица Франции?": "Финансовая модель ИИ, не имеющая важность того, как искусственный интеллект, я не могу создавать источником между людьми. Этот тип данных, который может быть вызвана различными способами, которые могут помочь создавать источ",
+   "кто такой Пушкин?": "Я — это вопрос, который выполняет множество факторов, которые могут помочь создавать источникам и воспользоваться в зависимости от контекста. Вот несколько способов, которые могут помочь:1. Улучшение исследований:   - Запрос",
+   "что такое вода?": "Чтобы создать программу на Python, которая вычитает, какую мысль и вычитание, вы можете использовать следующий код:```pythonimport randomdef is_prime(n):    \"\"\"Провер",
+   "расскажи про планету Марс": "Британская королева — это мир, которая включает в себя следующие шаги:1. Земля, молодой человек, который впереди волосы, и вдохновляет волосы, и её полезно решать не интуитивным согласием, а",
+   "дай совет, как начать бегать по утрам": "1. Здравствуйте, уважаемый(-ая) [Имя],2. 2. 2. \"Золотые слова\"3. \"Заголовок\"3. \"Звездные игры:   - Животные:   - Земля3. \"Заг",
+   "придумай название для кофейни": "1. Здоровье2. Благодарность3. Звездные солнечные4. Звезды4. Земля4. Земля4. Земля4. Земля4. Земля4. Земля4. Земля4. Земля4"
+  }
+ },
+ "instr_score": {
+  "ours_36m (assistant8)": [
+   8,
+   8
+  ],
+  "ours_base_36m (night_glm9q)": [
+   6,
+   8
+  ],
+  "ours_129m (assistant_big6)": [
+   6,
+   8
+  ],
+  "Veyra-30M-Instruct": [
+   0,
+   8
+  ],
+  "Veyra2-Mango-30M-Instruct": [
+   2,
+   8
+  ],
+  "Stentor-30M-Instruct": [
+   0,
+   8
+  ],
+  "TinyStories-Instruct-33M": [
+   2,
+   8
+  ],
+  "ru-babylm-urop-shivan": [
+   0,
+   8
+  ],
+  "ru-babylm-ft": [
+   2,
+   8
+  ],
+  "TinyStories-45M": [
+   1,
+   8
+  ],
+  "Tensor-2-40m-instruct": [
+   1,
+   8
+  ]
+ },
+ "speed": {
+  "ours_36m (assistant8)": 94.41,
+  "ours_base_36m (night_glm9q)": 84.85,
+  "ours_129m (assistant_big6)": 42.81,
+  "Veyra-30M-Instruct": 147.24,
+  "Veyra2-Mango-30M-Instruct": 80.89,
+  "Stentor-30M-Instruct": 60.37,
+  "Tensor-2-40m-instruct": 64.68,
+  "TinyStories-Instruct-33M": 171.99,
+  "TinyStories-45M": 87.68,
+  "ru-babylm-urop-shivan": 279.84,
+  "ru-babylm-ft": 306.79
+ },
+ "params": {
+  "ours_36m (assistant8)": 35849352,
+  "ours_base_36m (night_glm9q)": 35849352,
+  "ours_129m (assistant_big6)": 128994184,
+  "Veyra-30M-Instruct": 34611712,
+  "Veyra2-Mango-30M-Instruct": 30683520,
+  "Stentor-30M-Instruct": 30419712,
+  "Tensor-2-40m-instruct": 40036832,
+  "TinyStories-Instruct-33M": 68514048,
+  "TinyStories-45M": 45463040,
+  "ru-babylm-urop-shivan": 28232704,
+  "ru-babylm-ft": 28232704
+ }
+}
