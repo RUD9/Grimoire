@@ -13,8 +13,10 @@ import json
 import re
 import sys
 import importlib.util
+from pathlib import Path
+from eval_utils import final_answer, contains_number, contains_fact
 
-spec = importlib.util.spec_from_file_location("bn", "/media/gamedisk3/Grimoire/build_neuroset.py")
+spec = importlib.util.spec_from_file_location("bn", str(Path(__file__).resolve().parent / "build_neuroset.py"))
 bn = importlib.util.module_from_spec(spec)
 sys.modules["bn"] = bn
 spec.loader.exec_module(bn)
@@ -141,6 +143,7 @@ def main():
 
     real_run_tool = bn.run_tool
     lines = []
+    raw_outputs = []
     faith_acc = []
     q_ok = q_n = a_ok = 0
 
@@ -148,14 +151,15 @@ def main():
         bn.run_tool = lambda name, a, _r=response: json.dumps({"content": _r}, ensure_ascii=False, separators=(",", ":"))
         out = bn.generate_text(model, tok, pack, bn.prompt_messages(prompt, run_cfg),
                                run_cfg, device, allow_tools=True, max_new=args.max_new, verbose_tools=False)
+        raw_outputs.append({"kind": "WEB", "prompt": prompt, "trace": out, "answer": final_answer(out)})
         call = bn.last_tool_call(out, end_of_turn=True)
         query = ""
         if call:
             query = str(call[1].get("query", ""))
-        qhit = any(e in query.lower() for e in entities)
-        ahit = fact.lower() in out.lower()
-        # верность: доля содержательных слов ответа, присутствующих в tool response
-        ans_text = out.split("</tool_response>")[-1]
+        qhit = bool(call and call[0] == "web_search") and any(e in query.lower() for e in entities)
+        ahit = contains_fact(final_answer(out), fact)
+        # Лексическое пересечение, НЕ проверка фактической верности
+        ans_text = final_answer(out)
         atoks = set(w for w in re.findall(r"[\wё]{4,}", ans_text.lower()))
         rtoks = set(w for w in re.findall(r"[\wё]{4,}", response.lower()))
         faith = (len(atoks & rtoks) / len(atoks)) if atoks else 0.0
@@ -163,14 +167,15 @@ def main():
         q_ok += qhit
         q_n += 1
         a_ok += ahit
-        lines.append(("WEB", prompt, query, f"q={'+' if qhit else '-'} a={'+' if ahit else '-'} faith={faith:.2f} | {out[-90:]}", qhit and ahit))
+        lines.append(("WEB", prompt, query, f"q={'+' if qhit else '-'} a={'+' if ahit else '-'} lexical_overlap={faith:.2f} | {out[-90:]}", qhit and ahit))
     bn.run_tool = real_run_tool
 
     c_ok = 0
     for prompt, exp in CALC:
         out = bn.generate_text(model, tok, pack, bn.prompt_messages(prompt, run_cfg),
                                run_cfg, device, allow_tools=True, max_new=args.max_new, verbose_tools=False)
-        ok = exp in out
+        raw_outputs.append({"kind": "CALC", "prompt": prompt, "trace": out, "answer": final_answer(out)})
+        ok = contains_number(final_answer(out), exp)
         c_ok += ok
         lines.append(("CALC", prompt, "", out[-70:], ok))
 
@@ -178,6 +183,7 @@ def main():
     for prompt in CALIB:
         out = bn.generate_text(model, tok, pack, bn.prompt_messages(prompt, run_cfg),
                                run_cfg, device, allow_tools=True, max_new=args.max_new, verbose_tools=False)
+        raw_outputs.append({"kind": "CALIB", "prompt": prompt, "trace": out, "answer": final_answer(out)})
         ok = "<tool_call>" not in out and bool(out) and not cjk(out) and not degenerate(out)
         k_ok += ok
         lines.append(("CALIB", prompt, "", out[-70:], ok))
@@ -191,11 +197,14 @@ def main():
     print(f"WEB answer: {a_ok}/{q_n}")
     print(f"CALC:       {c_ok}/{len(CALC)}")
     print(f"CALIB:      {k_ok}/{len(CALIB)}")
-    print(f"WEB faith:  {sum(faith_acc)/max(1,len(faith_acc)):.2f} (доля ответа из tool response)")
+    print(f"WEB lexical_overlap:  {sum(faith_acc)/max(1,len(faith_acc)):.2f} (доля ответа из tool response)")
     print(f"TOTAL:      {q_ok+a_ok+c_ok+k_ok}/{n+len(WEB)}")
     if args.json_out:
         json.dump({"query": [q_ok, q_n], "answer": [a_ok, q_n], "calc": [c_ok, len(CALC)],
-                   "calib": [k_ok, len(CALIB)]}, open(args.json_out, "w"), ensure_ascii=False, indent=1)
+                   "calib": [k_ok, len(CALIB)], "schema_version": 2,
+                   "lexical_overlap": sum(faith_acc)/max(1,len(faith_acc)),
+                   "note": "Final-answer marker heuristics, not semantic accuracy; oracle tool responses.",
+                   "lines": lines, "raw_outputs": raw_outputs}, open(args.json_out, "w"), ensure_ascii=False, indent=1)
 
 
 if __name__ == "__main__":

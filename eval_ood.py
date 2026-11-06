@@ -13,8 +13,10 @@ import json
 import re
 import sys
 import importlib.util
+from pathlib import Path
+from eval_utils import final_answer, contains_number, contains_fact
 
-spec = importlib.util.spec_from_file_location("bn", "/media/gamedisk3/Grimoire/build_neuroset.py")
+spec = importlib.util.spec_from_file_location("bn", str(Path(__file__).resolve().parent / "build_neuroset.py"))
 bn = importlib.util.module_from_spec(spec)
 sys.modules["bn"] = bn
 spec.loader.exec_module(bn)
@@ -97,13 +99,14 @@ def score(run, device="cuda", max_new=120, tools=True):
 
     for q, exp in CALC:
         a = gen(q)
-        rec("calc", q, a, f"ожид. {exp}", exp in a)
+        rec("calc", q, a, f"ожид. {exp}", contains_number(final_answer(a), exp))
     for q, fact in WEB:
         a = gen(q)
-        rec("web", q, a, f"факт {fact}", fact in a and "<tool_response>" in a)
+        rec("web", q, a, f"факт {fact}", contains_fact(final_answer(a), fact) and "<tool_response>" in a)
     for q in GEN:
         a = gen(q)
-        ok = bool(a) and not cjk(a) and not degenerate(a) and 3 <= len(a) <= 1500
+        answer = final_answer(a)
+        ok = bool(answer) and not cjk(answer) and not degenerate(answer) and 3 <= len(answer) <= 1500
         rec("gen", q, a, "формат", ok)
     for q in CALIB:
         a = gen(q)
@@ -134,7 +137,7 @@ def main():
         tot[1] += n
     print(f"TOTAL: {tot[0]}/{tot[1]} = {100*tot[0]/max(1,tot[1]):.0f}%")
     if args.json_out:
-        json.dump({k: res[k] for k in ("calc", "web", "gen", "calib")},
+        json.dump(dict(res, schema_version=2, note="Heuristic marker/format checks, not semantic accuracy"),
                   open(args.json_out, "w"), ensure_ascii=False, indent=2)
 
 

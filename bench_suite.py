@@ -4,19 +4,21 @@
 конкурентами того же веса (30-40M).
 
 Метрики:
-  • BPB (bits-per-byte) на held-out RU и EN корпусах — не зависит от словаря;
+  • BPB для HF; comparable BPB собственной compact-модели отключён;
   • instruction-following на одних и тех же русских промптах (автооценка +
     сырые ответы для ручной проверки);
-  • скорость генерации (tok/s) в fp16 на GPU.
+  • скорость генерации (tok/s) в float32 на GPU.
 
-Результаты сохраняются инкрементально в bench_results.json, чтобы прогон можно
+Результаты сохраняются инкрементально в bench_results_v2.json, чтобы прогон можно
 было прервать/продолжить.
 
 Запуск:  python bench_suite.py [ours|hf|instr|speed|all]
 """
 from __future__ import annotations
 
+import argparse
 import glob
+from eval_utils import final_answer, contains_number
 import json
 import math
 import os
@@ -40,8 +42,8 @@ def _load(*a, **k):
     return _orig_load(*a, **k)
 torch.load = _load
 
-ROOT = Path("/media/gamedisk3/Grimoire")
-OUT = ROOT / "bench_results.json"
+ROOT = Path(__file__).resolve().parent
+OUT = ROOT / "bench_results_v2.json"
 DEV = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 HUB = Path.home() / ".cache" / "huggingface" / "hub"
 
@@ -182,32 +184,11 @@ def st_params(path: str) -> int:
 
 # ---------------------------------------------------------------- BPB
 def bpb_ours(run: str, corpus: str, max_len: int = 512):
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("bn", str(ROOT / "build_neuroset.py"))
-    bn = importlib.util.module_from_spec(spec)
-    sys.modules["bn"] = bn
-    spec.loader.exec_module(bn)
-    run_dir, payload, cfg = bn.load_run(run)
-    model, tok, pack = bn.load_model_from_run(run_dir, payload, cfg, DEV)
-    model.eval()
-    old_to_new = bn.get_forward_map(pack, len(tok))
-    ids = [int(old_to_new[i]) for i in tok.encode(corpus, add_special_tokens=False)]
-    nbytes = len(corpus.encode("utf-8"))
-    total, n = 0.0, 0
-    with torch.no_grad():
-        for s in range(0, len(ids), max_len):
-            chunk = ids[s:s + max_len]
-            if len(chunk) < 2:
-                continue
-            x = torch.tensor([chunk], device=DEV)
-            logits = model(x)[0].float()
-            logp = F.log_softmax(logits, dim=-1)
-            tgt = torch.tensor(chunk[1:], device=DEV)
-            total += -logp[:-1].gather(1, tgt[:, None]).sum().item()
-            n += len(chunk) - 1
-    del model
-    torch.cuda.empty_cache()
-    return total / math.log(2) / nbytes, n
+    raise RuntimeError(
+        "Comparable BPB for compact models is disabled: legacy evaluation leaked "
+        "future tokens through the factory and scored a lossy token mapping. "
+        "A causal evaluation protocol AND reversible encoding are required."
+    )
 
 
 def bpb_hf(name: str, corpus: str, max_len: int = 512):
@@ -245,11 +226,14 @@ def degenerate(s: str) -> bool:
 
 
 def score_instr(prompt: str, out: str, lang: str) -> bool:
+    out = final_answer(out)
     if not out or cjk(out) or degenerate(out):
         return False
     exp = INSTR_EXPECT[lang].get(prompt)
     if exp is None:
         return len(out.strip()) >= 4
+    if exp == ["611"]:
+        return contains_number(out, "611")
     low = out.lower()
     return any(e in low for e in exp)
 
@@ -260,7 +244,7 @@ def instr_ours(run: str, lang: str = "ru", max_new: int = 150):
     bn = importlib.util.module_from_spec(spec)
     sys.modules["bn"] = bn
     spec.loader.exec_module(bn)
-    run_dir, payload, cfg = bn.load_run(run)
+    run_dir, payload, cfg = bn.load_run(str(ROOT / run))
     cfg.max_new = max_new
     cfg.temperature = 0.0
     cfg.tools = True
@@ -275,7 +259,7 @@ def instr_ours(run: str, lang: str = "ru", max_new: int = 150):
     return out
 
 
-def instr_hf(name: str, instruct: bool, lang: str = "en", max_new: int = 100):
+def instr_hf(name: str, instruct: bool, lang: str = "en", max_new: int = 150):
     model, tok, _ = _load_hf(name)
     out = {}
     for p in INSTR_PROMPTS[lang]:
@@ -304,7 +288,7 @@ def speed_ours(run: str, max_new: int = 50, warmup: int = 3, runs: int = 10):
     bn = importlib.util.module_from_spec(spec)
     sys.modules["bn"] = bn
     spec.loader.exec_module(bn)
-    run_dir, payload, cfg = bn.load_run(run)
+    run_dir, payload, cfg = bn.load_run(str(ROOT / run))
     model, tok, pack = bn.load_model_from_run(run_dir, payload, cfg, DEV)
     cfg.tools = False
     msgs = bn.prompt_messages("привет", cfg)
@@ -367,8 +351,13 @@ def speed_hf(name: str, max_new: int = 50, warmup: int = 3, runs: int = 10):
 # ---------------------------------------------------------------- main
 def load_results():
     if OUT.exists():
-        return json.loads(OUT.read_text(encoding="utf-8"))
-    return {"meta": {"device": str(DEV),
+        data = json.loads(OUT.read_text(encoding="utf-8"))
+        if data.get("meta", {}).get("schema_version") != 2:
+            raise ValueError("Legacy results cannot be resumed; use a new --output path")
+        return data
+    return {"meta": {"schema_version": 2, "scoring": "final-answer marker heuristics; not semantic accuracy",
+                     "comparison": "ours has tools; HF baselines do not",
+                     "speed_dtype": "float32; no fp16 claim", "device": str(DEV),
                      "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "cpu"},
             "bpb": {}, "instr": {}, "instr_score": {}, "speed": {}}
 
@@ -378,14 +367,35 @@ def save(res):
 
 
 def main():
-    modes = set(sys.argv[1:]) or {"all"}
+    global OUT
+    ap = argparse.ArgumentParser(description="Heuristic smoke tests, not a model quality ranking")
+    ap.add_argument("modes", nargs="*", help="ours hf instr speed all")
+    ap.add_argument("--output", type=Path, default=OUT)
+    ap.add_argument("--force", action="store_true", help="Recompute selected sections; keep other results")
+    args = ap.parse_args()
+    OUT = args.output.resolve()
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    modes = set(args.modes) or {"all"}
+    if modes - {"ours", "hf", "instr", "speed", "all"}:
+        ap.error("Unknown mode")
     if "all" in modes:
         modes = {"ours", "hf", "instr", "speed"}
     res = load_results()
+    if args.force:
+        for mode, section in (("instr", "instr"), ("speed", "speed")):
+            if mode in modes:
+                res[section] = {}
+        if "instr" in modes:
+            res["instr_score"] = {}
+        if modes & {"ours", "hf"}:
+            labels = {m["label"] for m in (OURS if "ours" in modes else []) + (HF if "hf" in modes else [])}
+            res["bpb"] = {k: v for k, v in res["bpb"].items() if k.split("|")[0] not in labels}
+    if "speed" in modes and DEV.type != "cuda":
+        raise RuntimeError("Speed suite requires a CUDA/ROCm GPU")
     print(f"Device: {DEV} | {res['meta'].get('gpu')} | modes={sorted(modes)}")
 
     if modes & {"ours", "hf"}:
-        for m in OURS:
+        for m in (OURS if "ours" in modes else []):
             label, run = m["label"], m["run"]
             for lang, corpus in (("RU", RU_CORPUS), ("EN", EN_CORPUS)):
                 key = f"{label}|{lang}"
@@ -398,7 +408,7 @@ def main():
                     save(res)
                 except Exception as e:
                     print(f"[BPB] {label} {lang} ERR {e}")
-        for m in HF:
+        for m in (HF if "hf" in modes else []):
             label, name = m["label"], m["name"]
             for lang, corpus in (("RU", RU_CORPUS), ("EN", EN_CORPUS)):
                 key = f"{label}|{lang}"
